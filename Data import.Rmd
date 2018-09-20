@@ -5,7 +5,7 @@ date: "9/18/2018"
 output: html_document
 ---
 
-```{r}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
@@ -19,13 +19,8 @@ Import my first csv.
 litters_data = read_csv(file = "./data/FAS_litters.csv")
 litters_data = janitor::clean_names(litters_data)
 ```
-use janitor package clean_name function
+use janitor package clean_name function, do not load the entire janitor package becuase if janitor and tidyverse have same function, R is gonna give you an error. So only load package that we are gonna use extensively.
 
-Import my second csv.
-
-```{r}
-FAS_pups_data = read_csv(file = "./data/FAS_pups.csv")
-```
 
 ## Look at data
 
@@ -37,20 +32,27 @@ tail(litters_data)
 
 skimr::skim(litters_data)
 ```
+skimr package skim function gives info on data
+also can use View function in console, don't put View function in rmd cuz gonna give error.
+Steps: Import data, clean variable names, and look at it.
 
-Skip some rows; omit variable name
+
+Skip some rows; omit variable names
 
 ```{r}
 litters_data = read_csv(file = "./data/FAS_litters.csv",
   skip = 10, col_names = FALSE)
 ```
 
-Look at FAS pups data
+
+Look at pups data
 
 ```{r}
-pups_data = read_csv("./data/FAS_pups.csv")
-pups_data = 
+pups_data = read_csv("./data/FAS_pups.csv", col_types = "ciiiii")
+pups_data = janitor::clean_names(pups_data)
+skimr::skim(pups_data)
 ```
+Specify column types focus column to what you specifed, becasue R gnerally looks at 1000 data to determine type, if you have diff type in later data, you need to specify data type. 
 
 ## Other formats
 
@@ -59,7 +61,8 @@ Read in mlb data
 ```{r}
 mlb_data = readxl::read_excel(path = "./data/mlb11.xlsx")
 
-mlb_subset = readxl::read_excel(path = "./data/mlb11.xlsx", range = "A1:E17")
+mlb_subset = readxl::read_excel(path = "./data/mlb11.xlsx", 
+                                range = "A1:E17")
 ```
 
 Read in pulse data:
@@ -76,6 +79,6 @@ pups_readr = read_csv("./data/FAS_pups.csv")
 pups_baser = read.csv("./data/FAS_pups.csv")
 
 pups_readr
-pups_baser
+pups_baser$S
 ```
-read.csv gives more data and can guess
+read.csv gives more data and can guess, don't use read.csv
