@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 ```
+load tidyverse loads a bunch of packages, include read csv etc.
 
 ## Import FAS csv files
 
